@@ -1,1 +1,1 @@
-import { Board } from "./components.js";
+import { Board } from "./components/index.js";
