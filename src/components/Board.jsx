@@ -1,5 +1,6 @@
 import React from "react";
 import Square from "./Square";
+import Piece from "./Piece";
 
 // id syntax:
 // leading digit is type of piece (rook, bishop, knight etc) defined by value of piece
@@ -25,7 +26,7 @@ export default function Board() {
       {Array.from({ length: 8 }).map((_, i) => (
         <div className="flex" key={i}>
           {Array.from({ length: 8 }).map((_, j) => (
-            <Square key={`${i}.${j}`} row={i} col={j} />
+            <Square key={`${i}.${j}`} row={i} col={j} piece={piece} />
           ))}
         </div>
       ))}
