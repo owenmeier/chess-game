@@ -7,7 +7,8 @@ function pawnAttempt(board, selectedPiece, curPos, targetPos) {
   if (selectedPiece.color == "white") {
     if (
       !board[fromRow - 1][fromCol] &&
-      board[toRow][toCol] == board[fromRow - 1][fromCol]
+      toRow == fromRow - 1 &&
+      toCol == fromCol
     ) {
       return true;
     }
