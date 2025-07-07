@@ -75,8 +75,10 @@ export default function Board() {
       setSelected({ row, col, piece: board[row][col] });
     } else if (selected && selected.row == row && selected.col == col) {
       setSelected(null);
-    } else {
+    } else if (!board[row][col]) {
       setSelected(null);
+    } else {
+      setSelected({ row, col, piece: board[row][col] });
     }
   }
 
