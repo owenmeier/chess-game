@@ -10,7 +10,7 @@ export default function Square({ row, col, piece }) {
 
   return (
     <div className={`w-[50px] h-[50px] ${color}`}>
-      <Piece />
+      {piece && <Piece name={piece.name} />}
     </div>
   );
 }

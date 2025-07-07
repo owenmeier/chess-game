@@ -9,23 +9,26 @@ import Piece from "./Piece";
 // second digit will be which # of each piece the piece is (rooks 1 and 2, pawns 1-8)
 // final digit will be piece color, 1 for black 2 for white
 function createPiece(name, color, id) {
-  return { name, color, id };
+  const piece = { name, color, id };
+  return piece;
 }
 
 const board = Array.from({ length: 8 }, (_, row) =>
-  Array.from({ lenfth: 8 }, (_, col) => null)
+  Array.from({ length: 8 }, (_, col) => null)
 );
 
 function setupBoard() {
   board[0][0] = createPiece("rook", "black", 510);
 }
 
+setupBoard();
+
 export default function Board() {
   return (
     <div>
-      {Array.from({ length: 8 }).map((_, i) => (
+      {board.map((rowArr, i) => (
         <div className="flex" key={i}>
-          {Array.from({ length: 8 }).map((_, j) => (
+          {rowArr.map((piece, j) => (
             <Square key={`${i}.${j}`} row={i} col={j} piece={piece} />
           ))}
         </div>

@@ -1,5 +1,5 @@
 import React from "react";
 
 export default function Piece(name, color, id) {
-  return <div>${name}</div>;
+  return <span>{name && name.toString()}</span>;
 }
