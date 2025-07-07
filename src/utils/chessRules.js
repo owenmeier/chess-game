@@ -6,8 +6,34 @@ function pawnAttempt(board, selectedPiece, curPos, targetPos) {
 
   if (selectedPiece.color == "white") {
     if (
+      // first move can move forward two
+      fromRow == 6 &&
+      !board[fromRow - 1][fromCol] &&
+      !board[fromRow - 2][fromCol] &&
+      toRow == fromRow - 2 &&
+      toCol == fromCol
+    ) {
+      return true;
+    } else if (
       !board[fromRow - 1][fromCol] &&
       toRow == fromRow - 1 &&
+      toCol == fromCol
+    ) {
+      return true;
+    }
+  } else if (selectedPiece.color == "black") {
+    if (
+      // first move can move forward two
+      fromRow == 1 &&
+      !board[fromRow + 1][fromCol] &&
+      !board[fromRow + 2][fromCol] &&
+      toRow == fromRow + 2 &&
+      toCol == fromCol
+    ) {
+      return true;
+    } else if (
+      !board[fromRow + 1][fromCol] &&
+      toRow == fromRow + 1 &&
       toCol == fromCol
     ) {
       return true;
@@ -16,15 +42,40 @@ function pawnAttempt(board, selectedPiece, curPos, targetPos) {
   return false;
 }
 
-function rookAttempt(board, selectedPiece, curPos, targetPos) {}
+function rookAttempt(board, selectedPiece, curPos, targetPos) {
+  const [fromRow, fromCol] = curPos;
+  const [toRow, toCol] = targetPos;
 
-function knightAttempt(board, selectedPiece, curPos, targetPos) {}
+  return false;
+}
 
-function bishopAttempt(board, selectedPiece, curPos, targetPos) {}
+function knightAttempt(board, selectedPiece, curPos, targetPos) {
+  const [fromRow, fromCol] = curPos;
+  const [toRow, toCol] = targetPos;
 
-function queenAttempt(board, selectedPiece, curPos, targetPos) {}
+  return false;
+}
 
-function kingAttempt(board, selectedPiece, curPos, targetPos) {}
+function bishopAttempt(board, selectedPiece, curPos, targetPos) {
+  const [fromRow, fromCol] = curPos;
+  const [toRow, toCol] = targetPos;
+
+  return false;
+}
+
+function queenAttempt(board, selectedPiece, curPos, targetPos) {
+  const [fromRow, fromCol] = curPos;
+  const [toRow, toCol] = targetPos;
+
+  return false;
+}
+
+function kingAttempt(board, selectedPiece, curPos, targetPos) {
+  const [fromRow, fromCol] = curPos;
+  const [toRow, toCol] = targetPos;
+
+  return false;
+}
 
 export default function isLegalMove(board, selectedPiece, curPos, targetPos) {
   switch (selectedPiece.name) {
