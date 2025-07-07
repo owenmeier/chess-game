@@ -56,7 +56,10 @@ export default function Board() {
   const [selectedSquare, setSelectedSquare] = useState(null);
 
   function handleSquareClick(row, col) {
-    if (!selectedSquare) {
+    if (
+      !selectedSquare ||
+      !(selectedSquare.row == row && selectedSquare.col == col)
+    ) {
       setSelectedSquare({ row, col });
     } else {
       setSelectedSquare(null);
