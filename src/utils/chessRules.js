@@ -1,6 +1,19 @@
 import React, { useState } from "react";
 
-function pawnAttempt(board, selectedPiece, curPos, targetPos) {}
+function pawnAttempt(board, selectedPiece, curPos, targetPos) {
+  const [fromRow, fromCol] = curPos;
+  const [toRow, toCol] = targetPos;
+
+  if (selectedPiece.color == "white") {
+    if (
+      !board[fromRow - 1][fromCol] &&
+      board[toRow][toCol] == board[fromRow - 1][fromCol]
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
 
 function rookAttempt(board, selectedPiece, curPos, targetPos) {}
 

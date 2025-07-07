@@ -62,7 +62,12 @@ export default function Board() {
   function handleSquareClick(row, col) {
     if (
       selected &&
-      isLegalMove(board, selected.piece, selected.row, selected.col, row, col)
+      isLegalMove(
+        board,
+        selected.piece,
+        [selected.row, selected.col],
+        [row, col]
+      )
     ) {
       const newBoard = board.map((row) => row.slice());
       const tempPiece = selected;
