@@ -53,17 +53,30 @@ function getInitialBoard() {
 export default function Board() {
   const [board, setBoard] = useState(getInitialBoard);
 
-  const [selectedSquare, setSelectedSquare] = useState(null);
+  const [selected, setSelected] = useState(null);
+
+  // if piece exists, assign piece to grabbedpiece
+  // if piece is grabbed, next click should move piece to board spot
 
   function handleSquareClick(row, col) {
-    if (
-      !selectedSquare ||
-      !(selectedSquare.row == row && selectedSquare.col == col)
-    ) {
-      setSelectedSquare({ row, col });
-    } else {
-      setSelectedSquare(null);
+    if (!selected && board[row][col]) {
+      setSelected({ row, col, piece: board[row][col] });
+    } else if (selected && selected.row == row && selected.col == col) {
+      setSelected(null);
     }
+
+    // if (
+    //   !selectedSquare ||
+    //   !(selectedSquare.row == row && selectedSquare.col == col)
+    // ) {
+    //   setSelectedSquare({ row, col });
+    //   if (board[row][col]) {
+    //     setGrabbedPiece(board[row][col]);
+    //     console.log(grabbedPiece);
+    //   }
+    // } else {
+    //   setSelectedSquare(null);
+    // }
   }
 
   return (
@@ -77,13 +90,7 @@ export default function Board() {
               col={j}
               piece={piece}
               onClick={() => handleSquareClick(i, j)}
-              highlighted={
-                selectedSquare &&
-                selectedSquare.row == i &&
-                selectedSquare.col == j
-                  ? true
-                  : false
-              }
+              highlighted={selected && selected.row == i && selected.col == j}
             />
           ))}
         </div>

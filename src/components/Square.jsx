@@ -15,7 +15,7 @@ export default function Square({ row, col, piece, highlighted, onClick }) {
       }`}
       onClick={onClick}
     >
-      {piece && <Piece name={piece.name} key={piece.id} />}
+      {piece && <Piece {...piece} key={piece.id} />}
     </div>
   );
 }
