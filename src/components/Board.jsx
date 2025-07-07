@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Square from "./Square";
+import chessRules from "../utils/chessRules";
 
 // id syntax:
 // leading digit is type of piece (rook, bishop, knight etc) defined by value of piece
@@ -51,17 +52,18 @@ function getInitialBoard() {
 }
 
 export default function Board() {
-  const [board, setBoard] = useState(getInitialBoard);
-
-  const [selected, setSelected] = useState(null);
-
-  const [turn, setTurn] = useState("white");
+  const [board, setBoard] = useState(getInitialBoard); // board state
+  const [selected, setSelected] = useState(null); // selected piece state
+  const [turn, setTurn] = useState("white"); // turn state
 
   // if piece exists, assign piece to grabbedpiece
   // if piece is grabbed, next click should move piece to board spot
 
   function handleSquareClick(row, col) {
-    if (selected) {
+    if (
+      selected &&
+      isLegalMove(board, selected.piece, selected.row, selected.col, row, col)
+    ) {
       const newBoard = board.map((row) => row.slice());
       const tempPiece = selected;
       newBoard[row][col] = selected.piece;
