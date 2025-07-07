@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import Square from "./Square";
-import Piece from "./Piece";
 
 // id syntax:
 // leading digit is type of piece (rook, bishop, knight etc) defined by value of piece
@@ -13,11 +12,11 @@ function createPiece(name, color, id) {
   return piece;
 }
 
-const board = Array.from({ length: 8 }, (_, row) =>
-  Array.from({ length: 8 }, (_, col) => null)
-);
+function getInitialBoard() {
+  const board = Array.from({ length: 8 }, (_, row) =>
+    Array.from({ length: 8 }, (_, col) => null)
+  );
 
-function setupBoard() {
   {
     // black pieces
     board[0][0] = createPiece("rook", "black", 510);
@@ -47,9 +46,9 @@ function setupBoard() {
       board[6][col] = createPiece("pawn", "white", 110 + col);
     }
   }
-}
 
-setupBoard();
+  return board;
+}
 
 export default function Board() {
   return (
