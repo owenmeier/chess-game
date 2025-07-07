@@ -53,8 +53,14 @@ function getInitialBoard() {
 export default function Board() {
   const [board, setBoard] = useState(getInitialBoard);
 
+  let selectedSquare = { row, col };
+
   function handleSquareClick(row, col) {
-    const curPiece = board[row][col];
+    if (selectedSquare) {
+      selectedSquare = { row, col };
+    } else {
+      selectedSquare = null;
+    }
   }
 
   return (
