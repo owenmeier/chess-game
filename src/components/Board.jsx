@@ -51,12 +51,24 @@ function getInitialBoard() {
 }
 
 export default function Board() {
+  const [board, setBoard] = useState(getInitialBoard);
+
+  function handleSquareClick(row, col) {
+    const curPiece = board[row][col];
+  }
+
   return (
     <div>
       {board.map((rowArr, i) => (
         <div className="flex" key={i}>
           {rowArr.map((piece, j) => (
-            <Square key={`${i}${j}`} row={i} col={j} piece={piece} />
+            <Square
+              key={`${i}${j}`}
+              row={i}
+              col={j}
+              piece={piece}
+              onClick={() => handleSquareClick(i, j)}
+            />
           ))}
         </div>
       ))}
