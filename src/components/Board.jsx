@@ -53,13 +53,13 @@ function getInitialBoard() {
 export default function Board() {
   const [board, setBoard] = useState(getInitialBoard);
 
-  let selectedSquare = { row, col };
+  const [selectedSquare, setSelectedSquare] = useState(null);
 
   function handleSquareClick(row, col) {
-    if (selectedSquare) {
-      selectedSquare = { row, col };
+    if (!selectedSquare) {
+      setSelectedSquare({ row, col });
     } else {
-      selectedSquare = null;
+      setSelectedSquare(null);
     }
   }
 
@@ -74,6 +74,13 @@ export default function Board() {
               col={j}
               piece={piece}
               onClick={() => handleSquareClick(i, j)}
+              highlighted={
+                selectedSquare &&
+                selectedSquare.row == i &&
+                selectedSquare.col == j
+                  ? true
+                  : false
+              }
             />
           ))}
         </div>

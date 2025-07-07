@@ -1,7 +1,7 @@
 import React from "react";
 import Piece from "./Piece";
 
-export default function Square({ row, col, piece }) {
+export default function Square({ row, col, piece, highlighted, onClick }) {
   const isDark =
     (row % 2 == 1 && col % 2 == 0) || (row % 2 == 0 && col % 2 == 1);
   const color = isDark ? "bg-[#a8744a]" : "bg-[#faebd2]";
@@ -9,7 +9,12 @@ export default function Square({ row, col, piece }) {
   // when row is odd, then isDark == true when col is even
 
   return (
-    <div className={`w-[50px] h-[50px] ${color}`}>
+    <div
+      className={`w-[50px] h-[50px] ${color} ${
+        highlighted ? "border-4 border-yellow-400" : ""
+      }`}
+      onClick={onClick}
+    >
       {piece && <Piece name={piece.name} key={piece.id} />}
     </div>
   );
