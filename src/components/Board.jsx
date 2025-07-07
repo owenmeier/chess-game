@@ -55,28 +55,25 @@ export default function Board() {
 
   const [selected, setSelected] = useState(null);
 
+  const [turn, setTurn] = useState("white");
+
   // if piece exists, assign piece to grabbedpiece
   // if piece is grabbed, next click should move piece to board spot
 
   function handleSquareClick(row, col) {
-    if (!selected && board[row][col]) {
+    if (selected) {
+      const newBoard = board.map((row) => row.slice());
+      const tempPiece = selected;
+      newBoard[row][col] = selected.piece;
+      newBoard[tempPiece.row][tempPiece.col] = null;
+      setBoard(newBoard);
+      setSelected(null);
+      setTurn(turn === "white" ? "black" : "white");
+    } else if (!selected && board[row][col]) {
       setSelected({ row, col, piece: board[row][col] });
     } else if (selected && selected.row == row && selected.col == col) {
       setSelected(null);
     }
-
-    // if (
-    //   !selectedSquare ||
-    //   !(selectedSquare.row == row && selectedSquare.col == col)
-    // ) {
-    //   setSelectedSquare({ row, col });
-    //   if (board[row][col]) {
-    //     setGrabbedPiece(board[row][col]);
-    //     console.log(grabbedPiece);
-    //   }
-    // } else {
-    //   setSelectedSquare(null);
-    // }
   }
 
   return (
@@ -95,6 +92,7 @@ export default function Board() {
           ))}
         </div>
       ))}
+      <div>{turn}'s turn.</div>
     </div>
   );
 }
