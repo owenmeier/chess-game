@@ -12,7 +12,7 @@ function queenAttempt(board, selectedPiece, curPos, targetPos) {}
 
 function kingAttempt(board, selectedPiece, curPos, targetPos) {}
 
-export function isLegalMove(board, selectedPiece, curPos, targetPos) {
+export default function isLegalMove(board, selectedPiece, curPos, targetPos) {
   switch (selectedPiece.name) {
     case "pawn":
       return pawnAttempt(board, selectedPiece, curPos, targetPos);
@@ -26,5 +26,7 @@ export function isLegalMove(board, selectedPiece, curPos, targetPos) {
       return queenAttempt(board, selectedPiece, curPos, targetPos);
     case "king":
       return kingAttempt(board, selectedPiece, curPos, targetPos);
+    default:
+      return false;
   }
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Square from "./Square";
-import chessRules from "../utils/chessRules";
+import isLegalMove from "../utils/chessRules";
 
 // id syntax:
 // leading digit is type of piece (rook, bishop, knight etc) defined by value of piece
@@ -74,6 +74,8 @@ export default function Board() {
     } else if (!selected && board[row][col]) {
       setSelected({ row, col, piece: board[row][col] });
     } else if (selected && selected.row == row && selected.col == col) {
+      setSelected(null);
+    } else {
       setSelected(null);
     }
   }
