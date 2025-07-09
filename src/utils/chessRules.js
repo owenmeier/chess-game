@@ -4,41 +4,39 @@ function pawnAttempt(board, selectedPiece, curPos, targetPos) {
   const [fromRow, fromCol] = curPos;
   const [toRow, toCol] = targetPos;
 
-  if (selectedPiece.color == "white") {
-    if (
-      // first move can move forward two
-      fromRow == 6 &&
-      !board[fromRow - 1][fromCol] &&
-      !board[fromRow - 2][fromCol] &&
-      toRow == fromRow - 2 &&
-      toCol == fromCol
-    ) {
-      return true;
-    } else if (
-      !board[fromRow - 1][fromCol] &&
-      toRow == fromRow - 1 &&
-      toCol == fromCol
-    ) {
-      return true;
-    }
-  } else if (selectedPiece.color == "black") {
-    if (
-      // first move can move forward two
-      fromRow == 1 &&
-      !board[fromRow + 1][fromCol] &&
-      !board[fromRow + 2][fromCol] &&
-      toRow == fromRow + 2 &&
-      toCol == fromCol
-    ) {
-      return true;
-    } else if (
-      !board[fromRow + 1][fromCol] &&
-      toRow == fromRow + 1 &&
-      toCol == fromCol
-    ) {
-      return true;
-    }
+  const direction = selectedPiece.color == "white" ? -1 : 1;
+  const startRow = selectedPiece.color == "white" ? 6 : 1;
+
+  if (
+    // single move
+    toCol == fromCol &&
+    fromRow + direction == toRow &&
+    !board[toRow][toCol]
+  ) {
+    return true;
   }
+
+  if (
+    // double move on first move
+    fromRow == startRow &&
+    toCol == fromCol &&
+    fromRow + 2 * direction == toRow &&
+    !board[fromRow + direction][fromCol] &&
+    !board[toRow][toCol]
+  ) {
+    return true;
+  }
+
+  if (
+    // capture enemy piece
+    Math.abs(fromCol - toCol) == 1 &&
+    toRow == fromRow + direction &&
+    board[toRow][toCol] &&
+    board[toRow][toCol].color !== selectedPiece.color
+  ) {
+    return true;
+  }
+
   return false;
 }
 
