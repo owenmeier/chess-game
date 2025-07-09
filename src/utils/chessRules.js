@@ -125,6 +125,18 @@ function kingAttempt(board, selectedPiece, curPos, targetPos) {
   const [fromRow, fromCol] = curPos;
   const [toRow, toCol] = targetPos;
 
+  if (Math.abs(fromRow - toRow) == 1 || Math.abs(fromCol - toCol) == 1) {
+    if (Math.abs(fromRow - toRow) == Math.abs(fromCol - toCol)) {
+      return bishopAttempt(board, selectedPiece, curPos, targetPos);
+    }
+    if (
+      (fromRow == toRow || fromCol == toCol) &&
+      !(fromRow !== toRow && fromCol !== toCol)
+    ) {
+      return rookAttempt(board, selectedPiece, curPos, targetPos);
+    }
+  }
+
   return false;
 }
 
