@@ -44,25 +44,22 @@ function rookAttempt(board, selectedPiece, curPos, targetPos) {
   if (fromRow !== toRow && fromCol !== toCol) {
     return false;
   } else {
-    const numSpaces = Math.max(
+    const steps = Math.max(
       Math.abs(fromRow - toRow),
       Math.abs(fromCol - toCol)
     );
     const rowStep = fromRow == toRow ? 0 : toRow > fromRow ? 1 : -1;
     const colStep = fromCol == toCol ? 0 : toCol > fromCol ? 1 : -1;
-    console.log(numSpaces);
+    console.log(steps);
 
-    for (let i = 1; i < numSpaces; i++) {
-      console.log(i);
-      if (board[fromRow + rowStep * i][fromCol + colStep * i]) {
-        // check if path is blocked
-        return false;
-      }
+    for (let i = 1; i < steps; i++) {
+      // console.log(i);
+      if (board[fromRow + rowStep * i][fromCol + colStep * i]) return false; // check if path blocked
     }
     if (
       !board[toRow][toCol] ||
       (board[toRow][toCol] ==
-        board[fromRow + numSpaces * rowStep][fromCol + numSpaces * colStep] &&
+        board[fromRow + steps * rowStep][fromCol + steps * colStep] &&
         board[toRow][toCol].color !== selectedPiece.color)
     ) {
       return true;
@@ -82,6 +79,27 @@ function knightAttempt(board, selectedPiece, curPos, targetPos) {
 function bishopAttempt(board, selectedPiece, curPos, targetPos) {
   const [fromRow, fromCol] = curPos;
   const [toRow, toCol] = targetPos;
+
+  // making sure bishop is moving exactly diagonally (row and col must change same amount)
+  if (Math.abs(fromRow - toRow) !== Math.abs(fromCol - toCol)) {
+    return false;
+  } else {
+    const rowStep = toRow > fromRow ? 1 : -1;
+    const colStep = toCol > fromCol ? 1 : -1;
+    const steps = Math.abs(fromRow - toRow);
+
+    for (let i = 1; i < steps; i++) {
+      if (board[fromRow + rowStep * i][fromCol + colStep * i]) return false; // check if path blocked
+    }
+    if (
+      !board[toRow][toCol] ||
+      (board[toRow][toCol] ==
+        board[fromRow + rowStep * steps][fromCol + colStep * steps] &&
+        board[toRow][toCol].color !== selectedPiece.color)
+    ) {
+      return true;
+    }
+  }
 
   return false;
 }
