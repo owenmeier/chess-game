@@ -60,9 +60,10 @@ function rookAttempt(board, selectedPiece, curPos, targetPos) {
       }
     }
     if (
-      board[toRow][toCol] ==
+      !board[toRow][toCol] ||
+      (board[toRow][toCol] ==
         board[fromRow + numSpaces * rowStep][fromCol + numSpaces * colStep] &&
-      board[toRow][toCol].color !== selectedPiece.color
+        board[toRow][toCol].color !== selectedPiece.color)
     ) {
       return true;
     }
