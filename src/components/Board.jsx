@@ -62,6 +62,7 @@ export default function Board() {
   function handleSquareClick(row, col) {
     if (
       selected &&
+      selected.piece.color == turn &&
       isLegalMove(
         board,
         selected.piece,

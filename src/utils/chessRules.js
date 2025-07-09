@@ -122,6 +122,7 @@ function queenAttempt(board, selectedPiece, curPos, targetPos) {
 }
 
 function kingAttempt(board, selectedPiece, curPos, targetPos) {
+  // TODO incomplete since need to add special rules for checks and checkmate
   const [fromRow, fromCol] = curPos;
   const [toRow, toCol] = targetPos;
 
