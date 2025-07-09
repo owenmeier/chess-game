@@ -50,7 +50,7 @@ function rookAttempt(board, selectedPiece, curPos, targetPos) {
     );
     const rowStep = fromRow == toRow ? 0 : toRow > fromRow ? 1 : -1;
     const colStep = fromCol == toCol ? 0 : toCol > fromCol ? 1 : -1;
-    console.log(steps);
+    // console.log(steps);
 
     for (let i = 1; i < steps; i++) {
       // console.log(i);
@@ -107,6 +107,16 @@ function bishopAttempt(board, selectedPiece, curPos, targetPos) {
 function queenAttempt(board, selectedPiece, curPos, targetPos) {
   const [fromRow, fromCol] = curPos;
   const [toRow, toCol] = targetPos;
+
+  if (Math.abs(fromRow - toRow) == Math.abs(fromCol - toCol)) {
+    return bishopAttempt(board, selectedPiece, curPos, targetPos);
+  }
+  if (
+    (fromRow == toRow || fromCol == toCol) &&
+    !(fromRow !== toRow && fromCol !== toCol)
+  ) {
+    return rookAttempt(board, selectedPiece, curPos, targetPos);
+  }
 
   return false;
 }
