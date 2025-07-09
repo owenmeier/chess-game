@@ -73,6 +73,18 @@ function knightAttempt(board, selectedPiece, curPos, targetPos) {
   const [fromRow, fromCol] = curPos;
   const [toRow, toCol] = targetPos;
 
+  if (
+    (Math.abs(fromRow - toRow) == 2 && Math.abs(fromCol - toCol) == 1) ||
+    (Math.abs(fromCol - toCol) == 2 && Math.abs(fromRow - toRow) == 1)
+  ) {
+    if (
+      !board[toRow][toCol] ||
+      board[toRow][toCol].color !== selectedPiece.color
+    ) {
+      return true;
+    }
+  }
+
   return false;
 }
 
