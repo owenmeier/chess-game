@@ -65,25 +65,21 @@ function rookAttempt(board, selectedPiece, curPos, targetPos) {
   // making sure that rook is only moving in straight lines
   if (fromRow !== toRow && fromCol !== toCol) {
     return false;
-  } else {
-    const steps = Math.max(
-      Math.abs(fromRow - toRow),
-      Math.abs(fromCol - toCol)
-    );
-    const rowStep = fromRow == toRow ? 0 : toRow > fromRow ? 1 : -1;
-    const colStep = fromCol == toCol ? 0 : toCol > fromCol ? 1 : -1;
-    // console.log(steps);
+  }
+  const steps = Math.max(Math.abs(fromRow - toRow), Math.abs(fromCol - toCol));
+  const rowStep = fromRow == toRow ? 0 : toRow > fromRow ? 1 : -1;
+  const colStep = fromCol == toCol ? 0 : toCol > fromCol ? 1 : -1;
+  // console.log(steps);
 
-    for (let i = 1; i < steps; i++) {
-      // console.log(i);
-      if (board[fromRow + rowStep * i][fromCol + colStep * i]) return false; // check if path blocked
-    }
-    if (
-      !board[toRow][toCol] ||
-      board[toRow][toCol].color !== selectedPiece.color
-    ) {
-      return true;
-    }
+  for (let i = 1; i < steps; i++) {
+    // console.log(i);
+    if (board[fromRow + rowStep * i][fromCol + colStep * i]) return false; // check if path blocked
+  }
+  if (
+    !board[toRow][toCol] ||
+    board[toRow][toCol].color !== selectedPiece.color
+  ) {
+    return true;
   }
 
   return false;
@@ -115,17 +111,16 @@ function bishopAttempt(board, selectedPiece, curPos, targetPos) {
   // making sure bishop is moving exactly diagonally (row and col must change same amount)
   if (Math.abs(fromRow - toRow) !== Math.abs(fromCol - toCol)) {
     return false;
-  } else {
-    const rowStep = toRow > fromRow ? 1 : -1;
-    const colStep = toCol > fromCol ? 1 : -1;
-    const steps = Math.abs(fromRow - toRow);
+  }
+  const rowStep = toRow > fromRow ? 1 : -1;
+  const colStep = toCol > fromCol ? 1 : -1;
+  const steps = Math.abs(fromRow - toRow);
 
-    for (let i = 1; i < steps; i++) {
-      if (board[fromRow + rowStep * i][fromCol + colStep * i]) return false; // check if path blocked
-    }
-    if (!board[toRow][toCol] || board[toRow][toCol] !== selectedPiece.color) {
-      return true;
-    }
+  for (let i = 1; i < steps; i++) {
+    if (board[fromRow + rowStep * i][fromCol + colStep * i]) return false; // check if path blocked
+  }
+  if (!board[toRow][toCol] || board[toRow][toCol] !== selectedPiece.color) {
+    return true;
   }
 
   return false;
