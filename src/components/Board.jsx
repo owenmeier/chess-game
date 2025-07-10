@@ -42,8 +42,32 @@ export default function Board() {
   const [turn, setTurn] = useState("white"); // turn state
   const [lastMove, setLastMove] = useState(null);
 
-  // if piece exists, assign piece to grabbedpiece
-  // if piece is grabbed, next click should move piece to board spot
+  // move function
+  function executeMove(selected, row, col) {
+    const newBoard = board.map((row) => row.slice()); // create temp new board
+    const tempPiece = selected; // duplicate selected piece
+
+    newBoard[row][col] = selected.piece; //
+    newBoard[tempPiece.row][tempPiece.col] = null;
+
+    const isEnPassant =
+      selected.piece.name === "pawn" &&
+      Math.abs(selected.col - col) === 1 &&
+      board[row][col] == null &&
+      lastMove &&
+      lastMove.piece &&
+      lastMove.piece.name === "pawn" &&
+      lastMove.piece.color !== selected.piece.color &&
+      lastMove.doubleStep &&
+      lastMove.toRow === row + (selected.piece.color === "white" ? 1 : -1) &&
+      lastMove.toCol === col;
+
+    if (isEnPassant) {
+      newBoard[selected.row][col] = null;
+    }
+
+    return newBoard;
+  }
 
   function handleSquareClick(row, col) {
     if (
@@ -65,11 +89,8 @@ export default function Board() {
         doubleStep:
           selected.piece.name == "pawn" && Math.abs(selected.row - row) == 2,
       });
-      const newBoard = board.map((row) => row.slice());
-      const tempPiece = selected;
-      newBoard[row][col] = selected.piece;
-      newBoard[tempPiece.row][tempPiece.col] = null;
-      setBoard(newBoard);
+
+      setBoard(executeMove(selected, row, col));
       setSelected(null);
       setTurn(turn === "white" ? "black" : "white");
     } else if (!selected && board[row][col]) {
