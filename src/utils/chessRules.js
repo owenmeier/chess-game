@@ -142,14 +142,10 @@ function queenAttempt(board, selectedPiece, curPos, targetPos) {
   const [fromRow, fromCol] = curPos;
   const [toRow, toCol] = targetPos;
 
-  if (Math.abs(fromRow - toRow) == Math.abs(fromCol - toCol)) {
-    return bishopAttempt(board, selectedPiece, curPos, targetPos);
-  }
-  if (fromRow == toRow || fromCol == toCol) {
-    return rookAttempt(board, selectedPiece, curPos, targetPos);
-  }
-
-  return false;
+  return (
+    bishopAttempt(board, selectedPiece, curPos, targetPos) ||
+    rookAttempt(board, selectedPiece, curPos, targetPos)
+  );
 }
 
 function kingAttempt(board, selectedPiece, curPos, targetPos) {
@@ -157,13 +153,11 @@ function kingAttempt(board, selectedPiece, curPos, targetPos) {
   const [fromRow, fromCol] = curPos;
   const [toRow, toCol] = targetPos;
 
-  if (Math.abs(fromRow - toRow) == 1 || Math.abs(fromCol - toCol) == 1) {
-    if (Math.abs(fromRow - toRow) == Math.abs(fromCol - toCol)) {
-      return bishopAttempt(board, selectedPiece, curPos, targetPos);
-    }
-    if (fromRow == toRow || fromCol == toCol) {
-      return rookAttempt(board, selectedPiece, curPos, targetPos);
-    }
+  if (Math.abs(fromRow - toRow) <= 1 && Math.abs(fromCol - toCol) <= 1) {
+    return (
+      bishopAttempt(board, selectedPiece, curPos, targetPos) ||
+      rookAttempt(board, selectedPiece, curPos, targetPos)
+    );
   }
 
   return false;
