@@ -119,7 +119,10 @@ function bishopAttempt(board, selectedPiece, curPos, targetPos) {
   for (let i = 1; i < steps; i++) {
     if (board[fromRow + rowStep * i][fromCol + colStep * i]) return false; // check if path blocked
   }
-  if (!board[toRow][toCol] || board[toRow][toCol] !== selectedPiece.color) {
+  if (
+    !board[toRow][toCol] ||
+    board[toRow][toCol].color !== selectedPiece.color
+  ) {
     return true;
   }
 
