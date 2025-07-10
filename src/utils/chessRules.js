@@ -139,9 +139,6 @@ function bishopAttempt(board, selectedPiece, curPos, targetPos) {
 }
 
 function queenAttempt(board, selectedPiece, curPos, targetPos) {
-  const [fromRow, fromCol] = curPos;
-  const [toRow, toCol] = targetPos;
-
   return (
     bishopAttempt(board, selectedPiece, curPos, targetPos) ||
     rookAttempt(board, selectedPiece, curPos, targetPos)
@@ -155,8 +152,7 @@ function kingAttempt(board, selectedPiece, curPos, targetPos) {
 
   if (Math.abs(fromRow - toRow) <= 1 && Math.abs(fromCol - toCol) <= 1) {
     return (
-      bishopAttempt(board, selectedPiece, curPos, targetPos) ||
-      rookAttempt(board, selectedPiece, curPos, targetPos)
+      !board[toRow][toCol] || board[toRow][toCol].color !== selectedPiece.color
     );
   }
 
