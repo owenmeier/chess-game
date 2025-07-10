@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+const PIECES = {
+  PAWN: "pawn",
+  ROOK: "rook",
+  KNIGHT: "knight",
+  BISHOP: "bishop",
+  QUEEN: "queen",
+  KING: "king",
+};
+const COLORS = {
+  WHITE: "white",
+  BLACK: "black",
+};
 
 function pawnAttempt(lastMove, board, selectedPiece, curPos, targetPos) {
   const [fromRow, fromCol] = curPos; // current position of piece
   const [toRow, toCol] = targetPos; // target position of piece
-
-  const direction = selectedPiece.color == "white" ? -1 : 1;
-  const startRow = selectedPiece.color == "white" ? 6 : 1;
+  const direction = selectedPiece.color == COLORS.WHITE ? -1 : 1; // direction of pawn movement
+  const startRow = selectedPiece.color == COLORS.WHITE ? 6 : 1; // starting row of pawn
 
   if (
     // single move
@@ -36,7 +46,7 @@ function pawnAttempt(lastMove, board, selectedPiece, curPos, targetPos) {
     board[toRow][toCol] == null &&
     lastMove &&
     lastMove.piece &&
-    lastMove.piece.name == "pawn" &&
+    lastMove.piece.name == PIECES.PAWN &&
     lastMove.piece.color !== selectedPiece.color &&
     lastMove.doubleStep &&
     toRow == fromRow + direction &&
@@ -135,10 +145,7 @@ function queenAttempt(board, selectedPiece, curPos, targetPos) {
   if (Math.abs(fromRow - toRow) == Math.abs(fromCol - toCol)) {
     return bishopAttempt(board, selectedPiece, curPos, targetPos);
   }
-  if (
-    (fromRow == toRow || fromCol == toCol) &&
-    !(fromRow !== toRow && fromCol !== toCol)
-  ) {
+  if (fromRow == toRow || fromCol == toCol) {
     return rookAttempt(board, selectedPiece, curPos, targetPos);
   }
 
@@ -154,10 +161,7 @@ function kingAttempt(board, selectedPiece, curPos, targetPos) {
     if (Math.abs(fromRow - toRow) == Math.abs(fromCol - toCol)) {
       return bishopAttempt(board, selectedPiece, curPos, targetPos);
     }
-    if (
-      (fromRow == toRow || fromCol == toCol) &&
-      !(fromRow !== toRow && fromCol !== toCol)
-    ) {
+    if (fromRow == toRow || fromCol == toCol) {
       return rookAttempt(board, selectedPiece, curPos, targetPos);
     }
   }
@@ -173,17 +177,17 @@ export default function isLegalMove(
   targetPos
 ) {
   switch (selectedPiece.name) {
-    case "pawn":
+    case PIECES.PAWN:
       return pawnAttempt(lastMove, board, selectedPiece, curPos, targetPos);
-    case "rook":
+    case PIECES.ROOK:
       return rookAttempt(board, selectedPiece, curPos, targetPos);
-    case "knight":
+    case PIECES.KNIGHT:
       return knightAttempt(board, selectedPiece, curPos, targetPos);
-    case "bishop":
+    case PIECES.BISHOP:
       return bishopAttempt(board, selectedPiece, curPos, targetPos);
-    case "queen":
+    case PIECES.QUEEN:
       return queenAttempt(board, selectedPiece, curPos, targetPos);
-    case "king":
+    case PIECES.KING:
       return kingAttempt(board, selectedPiece, curPos, targetPos);
     default:
       return false;
