@@ -40,15 +40,15 @@ export default function Board() {
   const [board, setBoard] = useState(getInitialBoard); // board state
   const [selected, setSelected] = useState(null); // selected piece state
   const [turn, setTurn] = useState("white"); // turn state
-  const [lastMove, setLastMove] = useState(null);
+  const [moveHistory, setMoveHistory] = useState([]);
 
   // move function
   function executeMove(selected, row, col) {
     const newBoard = board.map((row) => row.slice()); // create temp new board
-    const tempPiece = selected; // duplicate selected piece
+    const lastMove = moveHistory[moveHistory.length - 1];
 
     newBoard[row][col] = selected.piece; //
-    newBoard[tempPiece.row][tempPiece.col] = null;
+    newBoard[selected.row][selected.col] = null;
 
     const isEnPassant =
       selected.piece.name === "pawn" &&
@@ -70,37 +70,39 @@ export default function Board() {
   }
 
   function handleSquareClick(row, col) {
+    // first checking if a piece is selected, to then attempt a move
     if (
       selected &&
       selected.piece.color == turn &&
       isLegalMove(
-        lastMove,
+        moveHistory[moveHistory.length - 1],
         board,
         selected.piece,
         [selected.row, selected.col],
         [row, col]
       )
     ) {
-      setLastMove({
-        piece: selected.piece,
-        color: selected.piece.color,
-        fromRow: selected.row,
-        fromCol: selected.col,
-        doubleStep:
-          selected.piece.name == "pawn" && Math.abs(selected.row - row) == 2,
-      });
+      setMoveHistory([
+        ...moveHistory,
+        {
+          piece: selected.piece,
+          fromRow: selected.row,
+          fromCol: selected.col,
+          toRow: row,
+          toCol: col,
+          doubleStep:
+            selected.piece.name == "pawn" && Math.abs(selected.row - row) == 2,
+        },
+      ]);
 
       setBoard(executeMove(selected, row, col));
       setSelected(null);
       setTurn(turn === "white" ? "black" : "white");
-    } else if (!selected && board[row][col]) {
+    } else if (board[row][col]) {
+      // if there wasn't a legal move, and there is a piece, select it
       setSelected({ row, col, piece: board[row][col] });
-    } else if (selected && selected.row == row && selected.col == col) {
-      setSelected(null);
-    } else if (!board[row][col]) {
-      setSelected(null);
     } else {
-      setSelected({ row, col, piece: board[row][col] });
+      setSelected(null); // otherwise, deselect everything
     }
   }
 
