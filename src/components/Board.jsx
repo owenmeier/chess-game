@@ -55,6 +55,7 @@ export default function Board() {
   const [board, setBoard] = useState(getInitialBoard); // board state
   const [selected, setSelected] = useState(null); // selected piece state
   const [turn, setTurn] = useState("white"); // turn state
+  const [lastMove, setLastMove] = useState(null);
 
   // if piece exists, assign piece to grabbedpiece
   // if piece is grabbed, next click should move piece to board spot
@@ -64,12 +65,21 @@ export default function Board() {
       selected &&
       selected.piece.color == turn &&
       isLegalMove(
+        lastMove,
         board,
         selected.piece,
         [selected.row, selected.col],
         [row, col]
       )
     ) {
+      setLastMove({
+        piece: selected.piece,
+        color: selected.piece.color,
+        fromRow: selected.row,
+        fromCol: selected.col,
+        doubleStep:
+          selected.piece.name == "pawn" && Math.abs(selected.row - row) == 2,
+      });
       const newBoard = board.map((row) => row.slice());
       const tempPiece = selected;
       newBoard[row][col] = selected.piece;

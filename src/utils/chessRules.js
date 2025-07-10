@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function pawnAttempt(board, selectedPiece, curPos, targetPos) {
+function pawnAttempt(lastMove, board, selectedPiece, curPos, targetPos) {
   const [fromRow, fromCol] = curPos; // current position of piece
   const [toRow, toCol] = targetPos; // target position of piece
 
@@ -29,6 +29,18 @@ function pawnAttempt(board, selectedPiece, curPos, targetPos) {
     toRow == fromRow + direction &&
     board[toRow][toCol] &&
     board[toRow][toCol].color !== selectedPiece.color
+  ) {
+    return true;
+  } else if (
+    Math.abs(fromCol - toCol) == 1 &&
+    board[toRow][toCol] == null &&
+    lastMove &&
+    lastMove.piece &&
+    lastMove.piece.name == "pawn" &&
+    lastMove.piece.color !== selectedPiece.color &&
+    lastMove.doubleStep &&
+    toRow == fromRow + direction &&
+    toCol == lastMove.fromCol
   ) {
     return true;
   }
@@ -153,10 +165,16 @@ function kingAttempt(board, selectedPiece, curPos, targetPos) {
   return false;
 }
 
-export default function isLegalMove(board, selectedPiece, curPos, targetPos) {
+export default function isLegalMove(
+  lastMove,
+  board,
+  selectedPiece,
+  curPos,
+  targetPos
+) {
   switch (selectedPiece.name) {
     case "pawn":
-      return pawnAttempt(board, selectedPiece, curPos, targetPos);
+      return pawnAttempt(lastMove, board, selectedPiece, curPos, targetPos);
     case "rook":
       return rookAttempt(board, selectedPiece, curPos, targetPos);
     case "knight":
