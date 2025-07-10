@@ -69,10 +69,8 @@ function rookAttempt(board, selectedPiece, curPos, targetPos) {
   const steps = Math.max(Math.abs(fromRow - toRow), Math.abs(fromCol - toCol));
   const rowStep = fromRow == toRow ? 0 : toRow > fromRow ? 1 : -1;
   const colStep = fromCol == toCol ? 0 : toCol > fromCol ? 1 : -1;
-  // console.log(steps);
 
   for (let i = 1; i < steps; i++) {
-    // console.log(i);
     if (board[fromRow + rowStep * i][fromCol + colStep * i]) return false; // check if path blocked
   }
   if (
