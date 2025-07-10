@@ -64,17 +64,16 @@ export default function Board() {
     newBoard[selected.row][selected.col] = null;
 
     const isEnPassant =
-      selected.piece.name === PIECES.PAWN &&
-      Math.abs(selected.col - col) === 1 &&
+      selected.piece.name == PIECES.PAWN &&
+      Math.abs(selected.col - col) == 1 &&
       board[row][col] == null &&
       lastMove &&
       lastMove.piece &&
-      lastMove.piece.name === PIECES.PAWN &&
+      lastMove.piece.name == PIECES.PAWN &&
       lastMove.piece.color !== selected.piece.color &&
       lastMove.doubleStep &&
-      lastMove.toRow ===
-        row + (selected.piece.color === COLORS.WHITE ? 1 : -1) &&
-      lastMove.toCol === col;
+      lastMove.toRow == row + (selected.piece.color == COLORS.WHITE ? 1 : -1) &&
+      lastMove.toCol == col;
 
     if (isEnPassant) {
       newBoard[selected.row][col] = null;
@@ -112,7 +111,7 @@ export default function Board() {
 
       setBoard(executeMove(selected, row, col)); // update board with newBoard from executeMove()
       setSelected(null); // deselect everything
-      setTurn(COLORS.WHITE ? COLORS.BLACK : COLORS.WHITE); // toggle turn
+      setTurn(turn == COLORS.WHITE ? COLORS.BLACK : COLORS.WHITE); // toggle turn
     } else if (board[row][col]) {
       setSelected({ row, col, piece: board[row][col] }); // if piece, select it
     } else {
