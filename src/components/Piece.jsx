@@ -35,10 +35,5 @@ export default function Piece({ name, color, id }) {
   const nameString = name.charAt(0).toUpperCase() + name.slice(1);
   const imgSrc = pieceImages[color][nameString];
 
-  return (
-    <img
-      src={imgSrc}
-      className={`${color == "black" ? "text-black" : "text-white"}`}
-    ></img>
-  );
+  return <img src={imgSrc} alt={`${color} ${name}`}></img>;
 }
