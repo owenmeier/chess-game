@@ -69,6 +69,10 @@ export default function Board() {
     return newBoard;
   }
 
+  function toggleTurn(currentTurn) {
+    return currentTurn == "white" ? "black" : "white";
+  }
+
   function handleSquareClick(row, col) {
     // first checking if a piece is selected, to then attempt a move
     if (
@@ -95,12 +99,11 @@ export default function Board() {
         },
       ]);
 
-      setBoard(executeMove(selected, row, col));
-      setSelected(null);
-      setTurn(turn === "white" ? "black" : "white");
+      setBoard(executeMove(selected, row, col)); // update board with newBoard from executeMove()
+      setSelected(null); // deselect everything
+      setTurn(toggleTurn(currentTurn)); // toggle turn
     } else if (board[row][col]) {
-      // if there wasn't a legal move, and there is a piece, select it
-      setSelected({ row, col, piece: board[row][col] });
+      setSelected({ row, col, piece: board[row][col] }); // if piece, select it
     } else {
       setSelected(null); // otherwise, deselect everything
     }
