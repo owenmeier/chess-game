@@ -2,6 +2,19 @@ import React, { useState } from "react";
 import Square from "./Square";
 import isLegalMove from "../utils/chessRules";
 
+const PIECES = {
+  PAWN: "pawn",
+  ROOK: "rook",
+  KNIGHT: "knight",
+  BISHOP: "bishop",
+  QUEEN: "queen",
+  KING: "king",
+};
+const COLORS = {
+  WHITE: "white",
+  BLACK: "black",
+};
+
 function createPiece(name, color) {
   const piece = { name, color };
   return piece;
@@ -13,23 +26,23 @@ function getInitialBoard() {
     .map(() => Array(8).fill(null));
 
   const pieceOrder = [
-    "rook",
-    "knight",
-    "bishop",
-    "queen",
-    "king",
-    "bishop",
-    "knight",
-    "rook",
+    PIECES.ROOK,
+    PIECES.KNIGHT,
+    PIECES.BISHOP,
+    PIECES.QUEEN,
+    PIECES.KING,
+    PIECES.BISHOP,
+    PIECES.KNIGHT,
+    PIECES.ROOK,
   ];
 
   for (let i = 0; i < 2; i++) {
     for (let j = 0; j < 8; j++) {
       const row = i == 0 ? 0 : 7;
-      const color = i == 0 ? "black" : "white";
-      const pawnRow = color == "black" ? 1 : 6;
+      const color = i == 0 ? COLORS.BLACK : COLORS.WHITE;
+      const pawnRow = color == COLORS.BLACK ? 1 : 6;
       board[row][j] = createPiece(pieceOrder[j], color);
-      board[pawnRow][j] = createPiece("pawn", color);
+      board[pawnRow][j] = createPiece(PIECES.PAWN, color);
     }
   }
 
@@ -39,7 +52,7 @@ function getInitialBoard() {
 export default function Board() {
   const [board, setBoard] = useState(getInitialBoard); // board state
   const [selected, setSelected] = useState(null); // selected piece state
-  const [turn, setTurn] = useState("white"); // turn state
+  const [turn, setTurn] = useState(COLORS.WHITE); // turn state
   const [moveHistory, setMoveHistory] = useState([]);
 
   // move function
@@ -51,15 +64,16 @@ export default function Board() {
     newBoard[selected.row][selected.col] = null;
 
     const isEnPassant =
-      selected.piece.name === "pawn" &&
+      selected.piece.name === PIECES.PAWN &&
       Math.abs(selected.col - col) === 1 &&
       board[row][col] == null &&
       lastMove &&
       lastMove.piece &&
-      lastMove.piece.name === "pawn" &&
+      lastMove.piece.name === PIECES.PAWN &&
       lastMove.piece.color !== selected.piece.color &&
       lastMove.doubleStep &&
-      lastMove.toRow === row + (selected.piece.color === "white" ? 1 : -1) &&
+      lastMove.toRow ===
+        row + (selected.piece.color === COLORS.WHITE ? 1 : -1) &&
       lastMove.toCol === col;
 
     if (isEnPassant) {
@@ -67,10 +81,6 @@ export default function Board() {
     }
 
     return newBoard;
-  }
-
-  function toggleTurn(currentTurn) {
-    return currentTurn == "white" ? "black" : "white";
   }
 
   function handleSquareClick(row, col) {
@@ -95,13 +105,14 @@ export default function Board() {
           toRow: row,
           toCol: col,
           doubleStep:
-            selected.piece.name == "pawn" && Math.abs(selected.row - row) == 2,
+            selected.piece.name == PIECES.PAWN &&
+            Math.abs(selected.row - row) == 2,
         },
       ]);
 
       setBoard(executeMove(selected, row, col)); // update board with newBoard from executeMove()
       setSelected(null); // deselect everything
-      setTurn(toggleTurn(currentTurn)); // toggle turn
+      setTurn(COLORS.WHITE ? COLORS.BLACK : COLORS.WHITE); // toggle turn
     } else if (board[row][col]) {
       setSelected({ row, col, piece: board[row][col] }); // if piece, select it
     } else {
