@@ -113,7 +113,6 @@ export default function Board() {
         lastMove.toCol === col;
 
       if (isEnPassant) {
-        // console.log("test");
         newBoard[selected.row][col] = null;
       }
 
