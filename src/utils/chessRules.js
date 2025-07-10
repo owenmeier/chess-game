@@ -78,12 +78,7 @@ function rookAttempt(board, selectedPiece, curPos, targetPos) {
       // console.log(i);
       if (board[fromRow + rowStep * i][fromCol + colStep * i]) return false; // check if path blocked
     }
-    if (
-      !board[toRow][toCol] ||
-      (board[toRow][toCol] ==
-        board[fromRow + steps * rowStep][fromCol + steps * colStep] &&
-        board[toRow][toCol].color !== selectedPiece.color)
-    ) {
+    if (!board[toRow][toCol] || board[toRow][toCol] !== selectedPiece.color) {
       return true;
     }
   }
@@ -125,12 +120,7 @@ function bishopAttempt(board, selectedPiece, curPos, targetPos) {
     for (let i = 1; i < steps; i++) {
       if (board[fromRow + rowStep * i][fromCol + colStep * i]) return false; // check if path blocked
     }
-    if (
-      !board[toRow][toCol] ||
-      (board[toRow][toCol] ==
-        board[fromRow + rowStep * steps][fromCol + colStep * steps] &&
-        board[toRow][toCol].color !== selectedPiece.color)
-    ) {
+    if (!board[toRow][toCol] || board[toRow][toCol] !== selectedPiece.color) {
       return true;
     }
   }
