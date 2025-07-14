@@ -49,11 +49,11 @@ function getInitialBoard() {
   return board;
 }
 
-export default function Board() {
+export default function Board({ moveHistory, setMoveHistory }) {
   const [board, setBoard] = useState(getInitialBoard); // board state
   const [selected, setSelected] = useState(null); // selected piece state
   const [turn, setTurn] = useState(COLORS.WHITE); // turn state
-  const [moveHistory, setMoveHistory] = useState([]); // last move info including pawn doubleStep
+  // const [moveHistory, setMoveHistory] = useState([]); // last move info including pawn doubleStep
 
   // move function
   function executeMove(selected, row, col) {
@@ -85,7 +85,7 @@ export default function Board() {
   // when you click a square, you get the row and column of the square
   function handleSquareClick(row, col) {
     // first checking if a piece is selected, to then attempt a move
-    console.log(lastMove);
+    // console.log(lastMove);
 
     // first we check if the selected state is true (if a piece is already selected)
     if (

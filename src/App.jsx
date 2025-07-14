@@ -1,17 +1,19 @@
 import { Board, MoveHistory } from "./components/index.jsx";
-import React from "react";
+import React, { useState } from "react";
 
 export default function App() {
+  const [moveHistory, setMoveHistory] = useState([]);
+
   return (
     <>
-      <div className="grid grid-cols-[1fr_auto_1fr] gap-4 min-h-screen">
+      <div className="grid grid-cols-3 min-h-screen">
         <div></div>
-        <div>
-          <Board className="flex justify-center items-center" />
+        <div className="flex justify-center items-center">
+          <Board moveHistory={moveHistory} setMoveHistory={setMoveHistory} />
         </div>
-        <div className="flex pt-4">
-          <div>
-            <MoveHistory />
+        <div className="grid grid-cols-2">
+          <div className="flex p-4">
+            <MoveHistory moveHistory={moveHistory} />
           </div>
           <div></div>
         </div>
