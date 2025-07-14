@@ -20,8 +20,13 @@ const cols = {
   7: "h",
 };
 
-export default function MoveHistory({ moveHistory }) {
+export default function MoveHistory({ moveHistory, setBoard, board }) {
   console.log(moveHistory);
+
+  function handleClick(pairIndex, moveIndex) {
+    const actualIndex = pairIndex * 2 + moveIndex;
+    setBoard(moveHistory[actualIndex].board);
+  }
 
   const movePairs = [];
   for (let i = 0; i < moveHistory.length; i += 2) {
@@ -39,12 +44,18 @@ export default function MoveHistory({ moveHistory }) {
             <div className="border border-blue-300 pl-1 text-left">
               {index + 1}.
             </div>
-            <button className="border border-green-300 text-left pl-2">
+            <button
+              onClick={() => handleClick(index, 0)}
+              className="border border-green-300 text-left pl-2"
+            >
               {notations[pair[0].piece.name]}
               {cols[pair[0].toCol]}
               {pair[0].toRow}
             </button>
-            <button className="border border-red-300 text-left pl-2 pr-1">
+            <button
+              onClick={() => handleClick(index, 1)}
+              className="border border-red-300 text-left pl-2 pr-1"
+            >
               {pair[1]
                 ? `${notations[pair[1].piece.name]}${cols[pair[1].toCol]}${
                     pair[1].toRow

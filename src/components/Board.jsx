@@ -20,7 +20,7 @@ function createPiece(name, color) {
   return piece;
 }
 
-function getInitialBoard() {
+export function getInitialBoard() {
   const board = Array(8)
     .fill(null)
     .map(() => Array(8).fill(null));
@@ -49,8 +49,13 @@ function getInitialBoard() {
   return board;
 }
 
-export default function Board({ moveHistory, setMoveHistory }) {
-  const [board, setBoard] = useState(getInitialBoard); // board state
+export default function Board({
+  moveHistory,
+  setMoveHistory,
+  board,
+  setBoard,
+}) {
+  // const [board, setBoard] = useState(getInitialBoard); // board state
   const [selected, setSelected] = useState(null); // selected piece state
   const [turn, setTurn] = useState(COLORS.WHITE); // turn state
   // const [moveHistory, setMoveHistory] = useState([]); // last move info including pawn doubleStep
@@ -103,9 +108,11 @@ export default function Board({ moveHistory, setMoveHistory }) {
         [row, col] // targetPos
       )
     ) {
+      const newBoard = executeMove(selected, row, col);
       setMoveHistory([
         ...moveHistory,
         {
+          board: newBoard,
           piece: selected.piece,
           fromRow: selected.row,
           fromCol: selected.col,
@@ -117,7 +124,7 @@ export default function Board({ moveHistory, setMoveHistory }) {
         },
       ]);
 
-      setBoard(executeMove(selected, row, col)); // update board with newBoard from executeMove()
+      setBoard(newBoard); // update board with newBoard from executeMove()
       setSelected(null); // deselect everything
       setTurn(turn == COLORS.WHITE ? COLORS.BLACK : COLORS.WHITE); // toggle turn
     } else if (
