@@ -11,7 +11,7 @@ export default function Square({ row, col, piece, highlighted, onClick }) {
   return (
     <div
       className={`w-[50px] h-[50px] ${color} ${
-        highlighted ? "border-4 border-yellow-400" : ""
+        highlighted ? "bg-[#fce174]" : ""
       }`}
       onClick={onClick}
     >

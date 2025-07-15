@@ -62,7 +62,7 @@ export default function MoveHistory({
             <button
               onClick={() => handleClick(index, 0)}
               className="bg-[#faf0d4] text-[#303030] font-bold
-              text-left pl-2 border-b-2 border-color-[#303030]"
+              text-left border-b-2 border-color-[#303030]"
             >
               {notations[pair[0].piece.name]}
               {cols[pair[0].toCol]}
@@ -71,7 +71,7 @@ export default function MoveHistory({
             <button
               onClick={() => handleClick(index, 1)}
               className="bg-[#303030] text-[#faf0d4] font-bold text-left 
-              pl-2 pr-1 border-b-2 border-color-[#faf0d4]"
+              pl-[7px] pr-1 "
             >
               {pair[1]
                 ? `${notations[pair[1].piece.name]}${cols[pair[1].toCol]}${
