@@ -54,10 +54,14 @@ export default function Board({
   setMoveHistory,
   board,
   setBoard,
+  turn,
+  setTurn,
+  curMoveIndex,
+  setCurMoveIndex,
 }) {
   // const [board, setBoard] = useState(getInitialBoard); // board state
   const [selected, setSelected] = useState(null); // selected piece state
-  const [turn, setTurn] = useState(COLORS.WHITE); // turn state
+  // const [turn, setTurn] = useState(COLORS.WHITE); // turn state
   // const [moveHistory, setMoveHistory] = useState([]); // last move info including pawn doubleStep
 
   // move function
@@ -109,21 +113,29 @@ export default function Board({
       )
     ) {
       const newBoard = executeMove(selected, row, col);
-      setMoveHistory([
-        ...moveHistory,
-        {
-          board: newBoard,
-          piece: selected.piece,
-          fromRow: selected.row,
-          fromCol: selected.col,
-          toRow: row,
-          toCol: col,
-          doubleStep:
-            selected.piece.name == PIECES.PAWN &&
-            Math.abs(selected.row - row) == 2,
-        },
-      ]);
+      let newMoveHistory;
 
+      if (curMoveIndex == -1) {
+        newMoveHistory = [...moveHistory];
+      } else {
+        newMoveHistory = moveHistory.slice(0, curMoveIndex + 1);
+      }
+
+      newMoveHistory.push({
+        board: newBoard,
+        turn: turn,
+        piece: selected.piece,
+        fromRow: selected.row,
+        fromCol: selected.col,
+        toRow: row,
+        toCol: col,
+        doubleStep:
+          selected.piece.name == PIECES.PAWN &&
+          Math.abs(selected.row - row) == 2,
+      });
+
+      setMoveHistory(newMoveHistory);
+      setCurMoveIndex(-1);
       setBoard(newBoard); // update board with newBoard from executeMove()
       setSelected(null); // deselect everything
       setTurn(turn == COLORS.WHITE ? COLORS.BLACK : COLORS.WHITE); // toggle turn

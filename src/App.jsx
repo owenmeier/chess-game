@@ -5,6 +5,8 @@ import React, { useState } from "react";
 export default function App() {
   const [moveHistory, setMoveHistory] = useState([]);
   const [board, setBoard] = useState(getInitialBoard);
+  const [turn, setTurn] = useState("white");
+  const [curMoveIndex, setCurMoveIndex] = useState(-1);
 
   return (
     <>
@@ -16,14 +18,19 @@ export default function App() {
             setBoard={setBoard}
             moveHistory={moveHistory}
             setMoveHistory={setMoveHistory}
+            setTurn={setTurn}
+            turn={turn}
+            curMoveIndex={curMoveIndex}
+            setCurMoveIndex={setCurMoveIndex}
           />
         </div>
         <div className="grid grid-cols-2">
           <div className="flex p-4">
             <MoveHistory
               moveHistory={moveHistory}
-              board={board}
               setBoard={setBoard}
+              setTurn={setTurn}
+              setCurMoveIndex={setCurMoveIndex}
             />
           </div>
           <div></div>

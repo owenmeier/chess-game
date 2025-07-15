@@ -20,12 +20,19 @@ const cols = {
   7: "h",
 };
 
-export default function MoveHistory({ moveHistory, setBoard, board }) {
+export default function MoveHistory({
+  moveHistory,
+  setBoard,
+  setTurn,
+  setCurMoveIndex,
+}) {
   console.log(moveHistory);
 
   function handleClick(pairIndex, moveIndex) {
     const actualIndex = pairIndex * 2 + moveIndex;
     setBoard(moveHistory[actualIndex].board);
+    setTurn(moveHistory[actualIndex].turn == "black" ? "white" : "black");
+    setCurMoveIndex(actualIndex);
   }
 
   const movePairs = [];
