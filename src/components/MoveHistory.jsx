@@ -20,6 +20,17 @@ const cols = {
   7: "h",
 };
 
+const rows = {
+  0: "8",
+  1: "7",
+  2: "6",
+  3: "5",
+  4: "4",
+  5: "3",
+  6: "2",
+  7: "1",
+};
+
 export default function MoveHistory({
   moveHistory,
   setBoard,
@@ -66,7 +77,7 @@ export default function MoveHistory({
             >
               {notations[pair[0].piece.name]}
               {cols[pair[0].toCol]}
-              {pair[0].toRow}
+              {rows[pair[0].toRow]}
             </button>
             <button
               onClick={() => handleClick(index, 1)}
@@ -75,7 +86,7 @@ export default function MoveHistory({
             >
               {pair[1]
                 ? `${notations[pair[1].piece.name]}${cols[pair[1].toCol]}${
-                    pair[1].toRow
+                    rows[pair[1].toRow]
                   }`
                 : ""}
             </button>
