@@ -47,13 +47,15 @@ export default function MoveHistory({
       <h3>Move History</h3>
       <div>
         {movePairs.map((pair, index) => (
-          <div key={index} className="grid grid-cols-[30px_60px_60px]">
-            <div className="border border-blue-300 pl-1 text-left">
+          <div key={index} className="grid grid-cols-[30px_5px_75px_75px]">
+            <div className=" border-b-2 border-r-2 border-color-[#303030] pl-1 text-left font-bold text-[#303030]">
               {index + 1}.
             </div>
+            <div></div>
             <button
               onClick={() => handleClick(index, 0)}
-              className="border border-green-300 text-left pl-2"
+              className="bg-[#faf0d4] text-[#303030] font-bold
+              text-left pl-2 border-b-2 border-color-[#303030]"
             >
               {notations[pair[0].piece.name]}
               {cols[pair[0].toCol]}
@@ -61,7 +63,8 @@ export default function MoveHistory({
             </button>
             <button
               onClick={() => handleClick(index, 1)}
-              className="border border-red-300 text-left pl-2 pr-1"
+              className="bg-[#303030] text-[#faf0d4] font-bold text-left 
+              pl-2 pr-1 border-b-2 border-color-[#faf0d4]"
             >
               {pair[1]
                 ? `${notations[pair[1].piece.name]}${cols[pair[1].toCol]}${
