@@ -10,9 +10,9 @@ export default function App() {
 
   return (
     <>
-      <div className="grid grid-cols-3 min-h-screen">
+      <div className="grid grid-cols-[1fr_400px_1fr] grid-rows-[1fr_400px_1fr] min-h-screen">
         <div></div>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center col-2 row-2 content-center items-center">
           <Board
             board={board}
             setBoard={setBoard}
@@ -24,8 +24,8 @@ export default function App() {
             setCurMoveIndex={setCurMoveIndex}
           />
         </div>
-        <div className="grid grid-cols-2">
-          <div className="flex p-4">
+        <div className="grid grid-cols-2 col-3 row-2">
+          <div className="flex pl-4">
             <MoveHistory
               moveHistory={moveHistory}
               setBoard={setBoard}

@@ -165,7 +165,6 @@ export default function Board({
           ))}
         </div>
       ))}
-      <div>{turn}'s turn.</div>
     </div>
   );
 }

@@ -44,14 +44,21 @@ export default function MoveHistory({
 
   return (
     <div>
-      <h3>Move History</h3>
+      <div className="grid grid-cols-[30px_5px_75px_75px]">
+        <h3 className="col-span-4 bg-[#faf0d4] border-b-2 border-color-[#faf0d4] text-center font-bold">
+          Move History
+        </h3>
+      </div>
       <div>
         {movePairs.map((pair, index) => (
-          <div key={index} className="grid grid-cols-[30px_5px_75px_75px]">
+          <div
+            key={index}
+            className="grid grid-cols-[30px_5px_75px_75px] bg-[#faf0d4]"
+          >
             <div className=" border-b-2 border-r-2 border-color-[#303030] pl-1 text-left font-bold text-[#303030]">
               {index + 1}.
             </div>
-            <div></div>
+            <div className="border-b-2 border-color-[#303030]"></div>
             <button
               onClick={() => handleClick(index, 0)}
               className="bg-[#faf0d4] text-[#303030] font-bold
