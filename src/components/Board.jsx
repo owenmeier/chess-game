@@ -20,7 +20,7 @@ function createPiece(name, color) {
   return piece;
 }
 
-function getInitialBoard() {
+export function getInitialBoard() {
   const board = Array(8)
     .fill(null)
     .map(() => Array(8).fill(null));
@@ -49,11 +49,20 @@ function getInitialBoard() {
   return board;
 }
 
-export default function Board() {
-  const [board, setBoard] = useState(getInitialBoard); // board state
+export default function Board({
+  moveHistory,
+  setMoveHistory,
+  board,
+  setBoard,
+  turn,
+  setTurn,
+  curMoveIndex,
+  setCurMoveIndex,
+}) {
+  // const [board, setBoard] = useState(getInitialBoard); // board state
   const [selected, setSelected] = useState(null); // selected piece state
-  const [turn, setTurn] = useState(COLORS.WHITE); // turn state
-  const [moveHistory, setMoveHistory] = useState([]); // last move info including pawn doubleStep
+  // const [turn, setTurn] = useState(COLORS.WHITE); // turn state
+  // const [moveHistory, setMoveHistory] = useState([]); // last move info including pawn doubleStep
 
   // move function
   function executeMove(selected, row, col) {
@@ -85,7 +94,7 @@ export default function Board() {
   // when you click a square, you get the row and column of the square
   function handleSquareClick(row, col) {
     // first checking if a piece is selected, to then attempt a move
-    console.log(lastMove);
+    // console.log(lastMove);
 
     // first we check if the selected state is true (if a piece is already selected)
     if (
@@ -103,21 +112,31 @@ export default function Board() {
         [row, col] // targetPos
       )
     ) {
-      setMoveHistory([
-        ...moveHistory,
-        {
-          piece: selected.piece,
-          fromRow: selected.row,
-          fromCol: selected.col,
-          toRow: row,
-          toCol: col,
-          doubleStep:
-            selected.piece.name == PIECES.PAWN &&
-            Math.abs(selected.row - row) == 2,
-        },
-      ]);
+      const newBoard = executeMove(selected, row, col);
+      let newMoveHistory;
 
-      setBoard(executeMove(selected, row, col)); // update board with newBoard from executeMove()
+      if (curMoveIndex == -1) {
+        newMoveHistory = [...moveHistory];
+      } else {
+        newMoveHistory = moveHistory.slice(0, curMoveIndex + 1);
+      }
+
+      newMoveHistory.push({
+        board: newBoard,
+        turn: turn,
+        piece: selected.piece,
+        fromRow: selected.row,
+        fromCol: selected.col,
+        toRow: row,
+        toCol: col,
+        doubleStep:
+          selected.piece.name == PIECES.PAWN &&
+          Math.abs(selected.row - row) == 2,
+      });
+
+      setMoveHistory(newMoveHistory);
+      setCurMoveIndex(-1);
+      setBoard(newBoard); // update board with newBoard from executeMove()
       setSelected(null); // deselect everything
       setTurn(turn == COLORS.WHITE ? COLORS.BLACK : COLORS.WHITE); // toggle turn
     } else if (
@@ -146,7 +165,6 @@ export default function Board() {
           ))}
         </div>
       ))}
-      <div>{turn}'s turn.</div>
     </div>
   );
 }
