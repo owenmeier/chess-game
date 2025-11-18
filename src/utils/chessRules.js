@@ -178,6 +178,68 @@ function kingAttempt(board, selectedPiece, curPos, targetPos) {
 	return false;
 }
 
+export function findKing(board, color) {
+	for (let row = 0; row < 8; row++) {
+		for (let col = 0; col < 8; col++) {
+			const piece = board[row][col];
+			if (piece && piece.name === PIECES.KING && piece.color === color) {
+				return [row, col];
+			}
+		}
+	}
+	return null; // shouldn't reach here
+}
+
+export function isSquareAttacked(board, row, col, attackingColor) {
+	for (let r = 0; r < 8; r++) {
+		for (let c = 0; c < 8; c++) {
+			const piece = board[r][c];
+			if (piece && piece.color === attackingColor) {
+				if (piece.name === PIECES.PAWN) {
+					const direction = piece.color === COLORS.WHITE ? -1 : 1;
+					if (r + direction === row && Math.abs(c - col) === 1) {
+						return true;
+					}
+				} else {
+					if (isLegalMove(null, board, piece, [r, c], [row, col])) {
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
+export function isInCheck(board, color) {
+	const kingPos = findKing(board, color);
+	if (!kingPos) return false;
+
+	const enemyColor = color === COLORS.WHITE ? COLORS.BLACK : COLORS.WHITE;
+	return isSquareAttacked(board, kingPos[0], kingPos[1], enemyColor);
+}
+
+export function wouldBeInCheck(board, selectedPiece, fromPos, toPos, color) {
+	const tempBoard = board.map((row) => row.slice());
+	const [fromRow, fromCol] = fromPos;
+	const [toRow, toCol] = toPos;
+
+	tempBoard[toRow][toCol] = selectedPiece;
+	tempBoard[fromRow][fromCol] = null;
+
+	const lastMove = null;
+	if (
+		selectedPiece.name === PIECES.PAWN &&
+		Math.abs(fromCol - toCol) === 1 &&
+		!board[toRow][toCol]
+	) {
+		const capturedPawnRow =
+			toRow + (selectedPiece.color === COLORS.WHITE ? 1 : -1);
+		tempBoard[capturedPawnRow][toCol] = null;
+	}
+	return isInCheck(tempBoard, color);
+}
+
 export default function isLegalMove(
 	lastMove,
 	board,
