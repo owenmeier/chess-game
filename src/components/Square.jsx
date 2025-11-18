@@ -26,5 +26,5 @@ export default function Square({
 		<div className={`w-[50px] h-[50px] ${backgroundColor}`} onClick={onClick}>
 			{piece && <Piece {...piece} key={piece.id} />}
 		</div>
-	);
+	); // adding to commit
 }
