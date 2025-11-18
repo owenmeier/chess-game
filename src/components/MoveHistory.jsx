@@ -47,16 +47,26 @@ export default function MoveHistory({
 	}
 
 	function getMoveNotation(move) {
+		let notation = "";
+
 		if (
+			// castling verification
 			move.piece.name === "king" &&
 			Math.abs(move.fromCol - move.toCol) == 2
 		) {
 			const isKingSide = move.toCol > move.fromCol;
-			return isKingSide ? "O-O" : "O-O-O";
+			notation = isKingSide ? "O-O" : "O-O-O";
+		} else {
+			notation = `${notations[move.piece.name]}${cols[move.toCol]}${
+				rows[move.toRow]
+			}`;
 		}
-		return `${notations[move.piece.name]}${cols[move.toCol]}${
-			rows[move.toRow]
-		}`;
+
+		if (move.causesCheck) {
+			notation += "+";
+		}
+
+		return notation;
 	}
 
 	const movePairs = [];

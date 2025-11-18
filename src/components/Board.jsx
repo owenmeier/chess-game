@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Square from "./Square";
-import isLegalMove, { wouldBeInCheck } from "../utils/chessRules";
+import isLegalMove, { wouldBeInCheck, isInCheck } from "../utils/chessRules";
 
 const PIECES = {
 	PAWN: "pawn",
@@ -70,7 +70,7 @@ export default function Board({
 		const lastMove = moveHistory[moveHistory.length - 1];
 
 		const movedPiece = { ...selected.piece, hasMoved: true }; // says piece has now moved
-		newBoard[row][col] = selected.piece; //
+		newBoard[row][col] = movedPiece; //
 		newBoard[selected.row][selected.col] = null;
 
 		const isEnPassant =
@@ -140,6 +140,9 @@ export default function Board({
 			}
 
 			const newBoard = executeMove(selected, row, col);
+			const nextTurn = turn == COLORS.WHITE ? COLORS.BLACK : COLORS.WHITE;
+			const causesCheck = isInCheck(newBoard, nextTurn);
+
 			let newMoveHistory;
 
 			if (curMoveIndex == -1) {
@@ -159,6 +162,7 @@ export default function Board({
 				doubleStep:
 					selected.piece.name == PIECES.PAWN &&
 					Math.abs(selected.row - row) == 2,
+				causesCheck: causesCheck,
 			});
 
 			setMoveHistory(newMoveHistory);
@@ -180,16 +184,24 @@ export default function Board({
 		<div>
 			{board.map((rowArr, i) => (
 				<div className="flex" key={i}>
-					{rowArr.map((piece, j) => (
-						<Square
-							key={`${i}${j}`}
-							row={i}
-							col={j}
-							piece={piece}
-							onClick={() => handleSquareClick(i, j)}
-							highlighted={selected && selected.row == i && selected.col == j}
-						/>
-					))}
+					{rowArr.map((piece, j) => {
+						const isKingInCheck =
+							piece &&
+							piece.name === PIECES.KING &&
+							piece.color === turn &&
+							isInCheck(board, turn);
+						return (
+							<Square
+								key={`${i}${j}`}
+								row={i}
+								col={j}
+								piece={piece}
+								onClick={() => handleSquareClick(i, j)}
+								highlighted={selected && selected.row == i && selected.col == j}
+								kingInCheck={isKingInCheck}
+							/>
+						);
+					})}
 				</div>
 			))}
 		</div>
