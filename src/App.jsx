@@ -11,10 +11,13 @@ export default function App() {
 	const [inCheck, setInCheck] = useState(false);
 	const [isCheckmated, setIsCheckmated] = useState(false);
 	const [showCheckAlert, setShowCheckAlert] = useState(false);
+	const [showCheckmateModal, setShowCheckmateModal] = useState(false);
+	const [winner, setWinner] = useState(null);
 
 	useEffect(() => {
 		const checkStatus = isInCheck(board, turn);
 		const wasInCheck = inCheck;
+		const checkmateStatus = checkStatus && isCheckmate(board, turn);
 
 		setInCheck(checkStatus);
 		setIsCheckmated(checkStatus && isCheckmate(board, turn));
@@ -27,7 +30,25 @@ export default function App() {
 			setShowCheckAlert(true);
 			setTimeout(() => setShowCheckAlert(false), 2000);
 		}
+
+		if (checkmateStatus && !showCheckmateModal) {
+			const winningPlayer = turn === "white" ? "Black" : "White";
+			setWinner(winningPlayer);
+			setTimeout(() => setShowCheckmateModal(true), 500);
+		}
 	}, [board, turn]);
+
+	function handleNewGame() {
+		setBoard(getInitialBoard());
+		setTurn("white");
+		setMoveHistory([]);
+		setCurMoveIndex(-1);
+		setInCheck(false);
+		setIsCheckmated(false);
+		setShowCheckmateModal(false);
+		setShowCheckAlert(false);
+		setWinner(null);
+	}
 
 	return (
 		<>
@@ -37,6 +58,17 @@ export default function App() {
 					{showCheckAlert && (
 						<div className="check-alert">
 							<div className="check-alert-text">Check!</div>
+						</div>
+					)}
+					{showCheckmateModal && (
+						<div className="checkmate-modal-overlay">
+							<div className="checkmate-modal">
+								<h2 className="checkmate-title">Checkmate!</h2>
+								<p className="checkmate-winner">{winner} wins!</p>
+								<button onClick={handleNewGame} className="new-game-button">
+									New Game
+								</button>
+							</div>
 						</div>
 					)}
 					<Board
