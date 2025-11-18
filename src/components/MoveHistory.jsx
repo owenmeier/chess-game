@@ -62,7 +62,9 @@ export default function MoveHistory({
 			}`;
 		}
 
-		if (move.causesCheck) {
+		if (move.causesCheckmate) {
+			notation += "#";
+		} else if (move.causesCheck) {
 			notation += "+";
 		}
 

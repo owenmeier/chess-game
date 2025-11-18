@@ -1,1 +1,79 @@
 @import "tailwindcss";
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	70% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.check-alert {
+	animation: fadeOut 1s ease-in-out forwards;
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 10;
+	pointer-events: none;
+}
+
+.check-alert-text {
+	color: #dc2626;
+	font-weight: bold;
+	font-size: 3.75rem;
+	text-shadow: 2px 2px 4px black;
+}
+
+.checkmate-modal-overlay {
+	position: fixed;
+	inset: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 50;
+}
+
+.checkmate-modal {
+	background-color: white;
+	padding: 2rem;
+	border-radius: 1rem;
+	box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+	text-align: center;
+	min-width: 300px;
+}
+
+.checkmate-title {
+	font-size: 2.5rem;
+	font-weight: bold;
+	color: #dc2626;
+	margin-bottom: 0rem;
+}
+
+.checkmate-winner {
+	font-size: 1.5rem;
+	color: #374151;
+	margin-bottom: 1rem;
+}
+
+.new-game-button {
+	background-color: #3b82f6;
+	color: white;
+	font-weight: bold;
+	padding: 0.75rem 2rem;
+	border-radius: 0.5rem;
+	border: none;
+	cursor: pointer;
+	font-size: 1.125rem;
+	transition: background-color 0.2s;
+}
+
+.new-game-button:hover {
+	background-color: #2563eb;
+}

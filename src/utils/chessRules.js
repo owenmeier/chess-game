@@ -252,6 +252,46 @@ export function wouldBeInCheck(board, selectedPiece, fromPos, toPos, color) {
 	return isInCheck(tempBoard, color);
 }
 
+export function isCheckmate(board, color) {
+	if (!isInCheck(board, color)) {
+		return false;
+	}
+
+	for (let fromRow = 0; fromRow < 8; fromRow++) {
+		for (let fromCol = 0; fromCol < 8; fromCol++) {
+			const piece = board[fromRow][fromCol];
+			if (piece && piece.color === color) {
+				for (let toRow = 0; toRow < 8; toRow++) {
+					for (let toCol = 0; toCol < 8; toCol++) {
+						if (
+							isLegalMove(
+								null,
+								board,
+								piece,
+								[fromRow, fromCol],
+								[toRow, toCol]
+							)
+						) {
+							if (
+								!wouldBeInCheck(
+									board,
+									piece,
+									[fromRow, fromCol],
+									[toRow, toCol],
+									color
+								)
+							) {
+								return false;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return true; // no legal moves found, checkmate
+}
+
 export default function isLegalMove(
 	lastMove,
 	board,
