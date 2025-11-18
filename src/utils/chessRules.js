@@ -146,7 +146,7 @@ function kingAttempt(board, selectedPiece, curPos, targetPos) {
 		);
 	}
 
-	// castling (moving 2 squares)
+	// castling (moving 2 squares) adding this to commit and close issue
 	if (
 		!selectedPiece.hasMoved &&
 		fromRow == toRow &&
