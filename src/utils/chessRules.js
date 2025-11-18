@@ -172,6 +172,18 @@ function kingAttempt(board, selectedPiece, curPos, targetPos) {
 				return false;
 			}
 		}
+
+		const enemyColor =
+			selectedPiece.color === COLORS.WHITE ? COLORS.BLACK : COLORS.WHITE;
+		if (isSquareAttacked(board, fromRow, fromCol, enemyColor)) {
+			return false;
+		}
+
+		const intermediateCol = isKingSide ? fromCol + 1 : fromCol - 1;
+		if (isSquareAttacked(board, fromRow, intermediateCol, enemyColor)) {
+			return false;
+		}
+
 		return true;
 	}
 
