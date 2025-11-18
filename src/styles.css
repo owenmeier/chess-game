@@ -1,1 +1,31 @@
 @import "tailwindcss";
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+	70% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.check-alert {
+	animation: fadeOut 1s ease-in-out forwards;
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 10;
+	pointer-events: none;
+}
+
+.check-alert-text {
+	color: #dc2626;
+	font-weight: bold;
+	font-size: 3.75rem;
+	text-shadow: 2px 2px 4px black;
+}

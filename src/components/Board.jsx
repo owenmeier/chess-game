@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import Square from "./Square";
-import isLegalMove, { wouldBeInCheck, isInCheck } from "../utils/chessRules";
+import isLegalMove, {
+	wouldBeInCheck,
+	isInCheck,
+	isCheckmate,
+} from "../utils/chessRules";
 
 const PIECES = {
 	PAWN: "pawn",
@@ -58,6 +62,8 @@ export default function Board({
 	setTurn,
 	curMoveIndex,
 	setCurMoveIndex,
+	inCheck,
+	isCheckmated,
 }) {
 	// const [board, setBoard] = useState(getInitialBoard); // board state
 	const [selected, setSelected] = useState(null); // selected piece state
@@ -107,6 +113,9 @@ export default function Board({
 
 	// when you click a square, you get the row and column of the square
 	function handleSquareClick(row, col) {
+		if (isCheckmated) {
+			return;
+		}
 		// first checking if a piece is selected, to then attempt a move
 		// console.log(lastMove);
 
@@ -142,6 +151,7 @@ export default function Board({
 			const newBoard = executeMove(selected, row, col);
 			const nextTurn = turn == COLORS.WHITE ? COLORS.BLACK : COLORS.WHITE;
 			const causesCheck = isInCheck(newBoard, nextTurn);
+			const causesCheckmate = causesCheck && isCheckmate(newBoard, nextTurn);
 
 			let newMoveHistory;
 
@@ -163,6 +173,7 @@ export default function Board({
 					selected.piece.name == PIECES.PAWN &&
 					Math.abs(selected.row - row) == 2,
 				causesCheck: causesCheck,
+				causesCheckmate: causesCheckmate,
 			});
 
 			setMoveHistory(newMoveHistory);
@@ -179,6 +190,10 @@ export default function Board({
 			setSelected(null); // otherwise, deselect everything
 		}
 	}
+
+	const isGameOver =
+		moveHistory.length > 0 &&
+		moveHistory[moveHistory.length - 1].causesCheckmate;
 
 	return (
 		<div>
