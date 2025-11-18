@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Square from "./Square";
-import isLegalMove from "../utils/chessRules";
+import isLegalMove, { wouldBeInCheck } from "../utils/chessRules";
 
 const PIECES = {
 	PAWN: "pawn",
@@ -126,6 +126,19 @@ export default function Board({
 				[row, col] // targetPos
 			)
 		) {
+			if (
+				wouldBeInCheck(
+					board,
+					selected.piece,
+					[selected.row, selected.col],
+					[row, col],
+					turn
+				)
+			) {
+				setSelected(null);
+				return;
+			}
+
 			const newBoard = executeMove(selected, row, col);
 			let newMoveHistory;
 
