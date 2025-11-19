@@ -17,3 +17,5 @@ A fully functional chess game built with React and JavaScript, featuring move va
 
 - Node.js (v14 or higher)
 - npm or yarn
+
+## [Live Preview of Current State of the Game](https://chess-game-three-chi.vercel.app/)
